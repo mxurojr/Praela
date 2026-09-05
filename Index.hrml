@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convite Especial</title>
+  
+  <style>
+    /* Estilos da Página (CSS) */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #ffe6e6; /* Um fundo rosinha claro */
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: hidden; /* Evita que a tela crie barras de rolagem quando o botão fugir */
+    }
+
+    h1, h2 {
+      color: #d10047; /* Tom de vermelho/rosa escuro */
+    }
+
+    p {
+      color: #333;
+      font-size: 18px;
+    }
+
+    .botoes {
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 12px 35px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0 10px;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.2s;
+    }
+
+    #btn-sim {
+      background-color: #28a745;
+    }
+
+    #btn-sim:hover {
+      background-color: #218838;
+      transform: scale(1.05); /* Dá uma leve aumentada quando passa o mouse */
+    }
+
+    #btn-nao {
+      background-color: #dc3545;
+      position: relative; /* Começa normal, o JS muda para absolute depois */
+      transition: left 0.2s ease, top 0.2s ease; /* Deixa o movimento suave */
+    }
+
+    /* Classe para esconder elementos */
+    .escondido {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="tela-pergunta">
+    <h1>Sai comigo hoje? ❤️</h1>
+    <div class="botoes">
+      <button id="btn-sim">Sim</button>
+      <button id="btn-nao">Não</button>
+    </div>
+  </div>
+
+  <div id="tela-sucesso" class="escondido">
+    <h2>Parabéns! 🎉</h2>
+    <p>Espero que tenha clicado de primeira no sim!<br>Me manda seu numero pra gente combinar certinho... 😄✨</p>
+  </div>
+
+  <script>
+    /* Lógica do Convite (JavaScript) */
+    const btnSim = document.getElementById('btn-sim');
+    const btnNao = document.getElementById('btn-nao');
+    const telaPergunta = document.getElementById('tela-pergunta');
+    const telaSucesso = document.getElementById('tela-sucesso');
+
+    // Função que faz o botão fugir
+    btnNao.addEventListener('mouseover', () => {
+      // Muda a posição para absoluta para podermos movê-lo livremente
+      btnNao.style.position = 'absolute';
+      
+      // Calcula o espaço máximo na tela subtraindo o tamanho do botão
+      const maxWidth = window.innerWidth - btnNao.offsetWidth;
+      const maxHeight = window.innerHeight - btnNao.offsetHeight;
+      
+      // Gera coordenadas X e Y aleatórias
+      const randomX = Math.floor(Math.random() * maxWidth);
+      const randomY = Math.floor(Math.random() * maxHeight);
+      
+      // Aplica as novas posições ao botão
+      btnNao.style.left = `${randomX}px`;
+      btnNao.style.top = `${randomY}px`;
+    });
+
+    // Função para quando a pessoa finalmente clicar no Sim
+    btnSim.addEventListener('click', () => {
+      telaPergunta.classList.add('escondido');
+      telaSucesso.classList.remove('escondido');
+    });
+  </script>
+
+</body>
+</html>
