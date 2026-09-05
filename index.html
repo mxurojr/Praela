@@ -3,115 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Convite Especial</title>
+  <title>Desafio Aceito 🥊</title>
   
   <style>
-    /* Estilos da Página (CSS) */
+    /* Estilo estilo Ringue / Fight Club */
     body {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      background-color: #ffe6e6; /* Um fundo rosinha claro */
+      background-color: #1a1a1a; /* Fundo escuro */
       font-family: 'Arial', sans-serif;
       text-align: center;
-      overflow: hidden; /* Evita que a tela crie barras de rolagem quando o botão fugir */
+      color: #f8f9fa;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    h1, h2 {
-      color: #d10047; /* Tom de vermelho/rosa escuro */
+    .ringue {
+      border: 4px dashed #dc3545; /* Cordas do ringue vermelhas */
+      padding: 40px 30px;
+      border-radius: 12px;
+      background-color: #2b2b2b;
+      box-shadow: 0 0 30px rgba(220, 53, 69, 0.4);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #dc3545; /* Vermelho boxe */
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     p {
-      color: #333;
       font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 25px;
     }
 
-    .botoes {
-      margin-top: 30px;
-    }
-
-    button {
-      padding: 12px 35px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin: 0 10px;
-      color: white;
+    .destaque {
+      color: #ffc107; /* Amarelo ouro para destacar o kickboxing */
       font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: background-color 0.2s;
+      font-size: 20px;
     }
 
-    #btn-sim {
-      background-color: #28a745;
-    }
-
-    #btn-sim:hover {
-      background-color: #218838;
-      transform: scale(1.05); /* Dá uma leve aumentada quando passa o mouse */
-    }
-
-    #btn-nao {
+    .btn-luta {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 18px;
       background-color: #dc3545;
-      position: relative; /* Começa normal, o JS muda para absolute depois */
-      transition: left 0.2s ease, top 0.2s ease; /* Deixa o movimento suave */
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      text-transform: uppercase;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.2s, transform 0.2s;
     }
 
-    /* Classe para esconder elementos */
-    .escondido {
-      display: none;
+    .btn-luta:hover {
+      background-color: #c82333;
+      transform: scale(1.05); /* Dá um zoom no botão ao passar o mouse */
     }
   </style>
 </head>
 <body>
 
-  <div id="tela-pergunta">
-    <h1>Sai comigo hoje? ❤️</h1>
-    <div class="botoes">
-      <button id="btn-sim">Sim</button>
-      <button id="btn-nao">Não</button>
-    </div>
+  <div class="ringue">
+    <h1>Desafio Aceito! 🥊</h1>
+    <p>Você só esqueceu de um pequeno detalhe: <br><span class="destaque">eu faço kickboxing. 🥷</span></p>
+    <p>Já que você chamou pro ringue, a aposta tá valendo. Se você perder, o açaí pós-treino é por sua conta.</p>
+    
+    <a href="https://wa.me/5579988410626?text=Oi!%20Tô%20pronta%20pra%20perder%20no%20kickboxing%20e%20pagar%20o%20açaí%20🥊" class="btn-luta" target="_blank">
+      Agendar Luta (e passar o número)
+    </a>
   </div>
-
-  <div id="tela-sucesso" class="escondido">
-    <h2>Parabéns! 🎉</h2>
-    <p>Espero que tenha clicado de primeira no sim!<br>Me manda seu numero pra gente combinar certinho... 😄✨</p>
-  </div>
-
-  <script>
-    /* Lógica do Convite (JavaScript) */
-    const btnSim = document.getElementById('btn-sim');
-    const btnNao = document.getElementById('btn-nao');
-    const telaPergunta = document.getElementById('tela-pergunta');
-    const telaSucesso = document.getElementById('tela-sucesso');
-
-    // Função que faz o botão fugir
-    btnNao.addEventListener('mouseover', () => {
-      // Muda a posição para absoluta para podermos movê-lo livremente
-      btnNao.style.position = 'absolute';
-      
-      // Calcula o espaço máximo na tela subtraindo o tamanho do botão
-      const maxWidth = window.innerWidth - btnNao.offsetWidth;
-      const maxHeight = window.innerHeight - btnNao.offsetHeight;
-      
-      // Gera coordenadas X e Y aleatórias
-      const randomX = Math.floor(Math.random() * maxWidth);
-      const randomY = Math.floor(Math.random() * maxHeight);
-      
-      // Aplica as novas posições ao botão
-      btnNao.style.left = `${randomX}px`;
-      btnNao.style.top = `${randomY}px`;
-    });
-
-    // Função para quando a pessoa finalmente clicar no Sim
-    btnSim.addEventListener('click', () => {
-      telaPergunta.classList.add('escondido');
-      telaSucesso.classList.remove('escondido');
-    });
-  </script>
 
 </body>
 </html>
