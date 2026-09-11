@@ -1,87 +1,328 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desafio Aceito 🥊</title>
-  
-  <style>
-    /* Estilo estilo Ringue / Fight Club */
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #1a1a1a; /* Fundo escuro */
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      color: #f8f9fa;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um Convite Especial</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-    .ringue {
-      border: 4px dashed #dc3545; /* Cordas do ringue vermelhas */
-      padding: 40px 30px;
-      border-radius: 12px;
-      background-color: #2b2b2b;
-      box-shadow: 0 0 30px rgba(220, 53, 69, 0.4);
-      max-width: 500px;
-      width: 100%;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-    h1 {
-      color: #dc3545; /* Vermelho boxe */
-      font-size: 28px;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
 
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+        }
 
-    .destaque {
-      color: #ffc107; /* Amarelo ouro para destacar o kickboxing */
-      font-weight: bold;
-      font-size: 20px;
-    }
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
 
-    .btn-luta {
-      display: inline-block;
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #dc3545;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      text-transform: uppercase;
-      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-      transition: background-color 0.2s, transform 0.2s;
-    }
+        .screen.active {
+            display: block;
+        }
 
-    .btn-luta:hover {
-      background-color: #c82333;
-      transform: scale(1.05); /* Dá um zoom no botão ao passar o mouse */
-    }
-  </style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tipografia */
+        h1 { font-size: 24px; margin-bottom: 10px; color: #1a1a1a; }
+        p { font-size: 14px; color: #666; margin-bottom: 30px; line-height: 1.5; }
+        .subtitle { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 20px; display: block;}
+
+        /* Imagem do Gato */
+        .cat-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            display: block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Botões */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-yes {
+            background-color: #d81b60;
+            color: white;
+        }
+        
+        .btn-yes:hover { background-color: #ad144b; }
+
+        .btn-no {
+            background-color: #f0f0f0;
+            color: #666;
+            position: relative; /* Começa relativo, muda para fixed via JS */
+        }
+
+        .btn-primary {
+            background-color: #d81b60;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* Inputs e Grid */
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        input[type="date"], input[type="time"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .food-item {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            padding: 15px 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .food-item:hover { border-color: #d81b60; }
+        
+        .food-item.selected {
+            border-color: #d81b60;
+            background-color: #fff0f5;
+            color: #d81b60;
+        }
+
+        .food-item span { display: block; font-size: 24px; margin-bottom: 5px; }
+
+        /* Tela Final */
+        .summary-card {
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            border: 1px dashed #ccc;
+        }
+
+        .summary-row {
+            display: flex;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .summary-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+        .summary-label { width: 60px; font-weight: bold; color: #888; font-size: 12px; text-transform: uppercase; }
+        .summary-value { color: #333; font-weight: 600; font-size: 14px;}
+    </style>
 </head>
 <body>
 
-  <div class="ringue">
-    <h1>Desafio Aceito! 🥊</h1>
-    <p>Você só esqueceu de um pequeno detalhe: <br><span class="destaque">eu faço kickboxing. 🥷</span></p>
-    <p>Já que você chamou pro ringue, a aposta tá valendo. Se você perder, o açaí pós-treino é por sua conta.</p>
-    
-    <a href="https://wa.me/5579988410626?text=Oi!%20Tô%20pronta%20pra%20perder%20no%20kickboxing%20e%20pagar%20o%20açaí%20🥊" class="btn-luta" target="_blank">
-      Agendar Luta (e passar o número)
-    </a>
-  </div>
+    <div class="container">
+        <div id="screen1" class="screen active">
+            <span class="subtitle">Um Convite</span>
+            <img src="https://i.pinimg.com/736x/8f/3e/21/8f3e2101e4ff0c0a3cd84d9f7a7ba3ca.jpg" alt="Gato triste" class="cat-img">
+            <h1>Você aceita sair comigo?</h1>
+            <p>Sem pressão. Sério. Só uma noite, uma boa conversa e a chance de eu te fazer rir pelo menos três vezes.</p>
+            
+            <div class="btn-group">
+                <button class="btn-yes" onclick="nextScreen('screen2'); triggerConfetti();">Sim, aceito <3</button>
+                <button class="btn-no" id="btn-no">Não</button>
+            </div>
+        </div>
 
+        <div id="screen2" class="screen">
+            <h1>😱 Isso é um SIM?</h1>
+            <p>Eu juro que estava pronto para você negar. Já até tinha ensaiado o "tudo bem, sem problema".</p>
+            
+            <h2 style="font-size: 18px; margin-bottom: 20px;">Então me diz: que dia você está livre?</h2>
+            
+            <div class="input-group">
+                <label>A Data</label>
+                <input type="date" id="dateInput">
+            </div>
+            
+            <div class="input-group">
+                <label>O Horário</label>
+                <input type="time" id="timeInput" value="20:00">
+            </div>
+
+            <button class="btn-primary" onclick="nextScreen('screen3')">Combinado -></button>
+        </div>
+
+        <div id="screen3" class="screen">
+            <span class="subtitle">Parte séria da noite</span>
+            <h1>O que você quer comer?</h1>
+            <p style="font-size: 12px;">Escolha uma. Eu cuido da reserva, do caminho e de fingir que sei escolher vinho.</p>
+            
+            <div class="food-grid" id="foodGrid">
+                <div class="food-item" onclick="selectFood(this, 'Pizza')"><span>🍕</span> Pizza</div>
+                <div class="food-item" onclick="selectFood(this, 'Sushi')"><span>🍣</span> Sushi</div>
+                <div class="food-item" onclick="selectFood(this, 'Hot Dog')"><span>🌭</span> Hot Dog</div>
+                <div class="food-item" onclick="selectFood(this, 'Hambúrguer')"><span>🍔</span> Lanche</div>
+                <div class="food-item" onclick="selectFood(this, 'Carne')"><span>🥩</span> Carne</div>
+                <div class="food-item" onclick="selectFood(this, 'Italiano')"><span>🍝</span> Italiano</div>
+            </div>
+
+            <button class="btn-primary" onclick="finishSetup()">Confirmar encontro <3</button>
+        </div>
+
+        <div id="screen4" class="screen">
+            <span class="subtitle">Está marcado</span>
+            <h1>Então é um encontro.</h1>
+            <p>Guarda esse print. É a prova de que você disse sim antes de eu perder a coragem de perguntar de novo.</p>
+            
+            <div class="summary-card">
+                <div class="summary-row">
+                    <div class="summary-label">DIA</div>
+                    <div class="summary-value" id="resDate">-</div>
+                </div>
+                <div class="summary-row">
+                    <div class="summary-label">HORA</div>
+                    <div class="summary-value" id="resTime">-</div>
+                </div>
+                <div class="summary-row">
+                    <div class="summary-label">MENU</div>
+                    <div class="summary-value" id="resFood">-</div>
+                </div>
+                <div class="summary-row">
+                    <div class="summary-label">NOTA</div>
+                    <div class="summary-value">Nenhuma. Só apareça.</div>
+                </div>
+            </div>
+
+            <button class="btn-no" style="margin-top: 20px; width: 100%;" onclick="location.reload()">Refazer</button>
+        </div>
+    </div>
+
+    <script>
+        // Lógica do botão fujão
+        const btnNo = document.getElementById('btn-no');
+        
+        btnNo.addEventListener('mouseover', function() {
+            // Muda a posição para fixed para poder mover pela tela toda
+            this.style.position = 'fixed';
+            
+            // Calcula posições aleatórias dentro do tamanho da janela visível
+            const maxX = window.innerWidth - this.offsetWidth - 20;
+            const maxY = window.innerHeight - this.offsetHeight - 20;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            this.style.left = randomX + 'px';
+            this.style.top = randomY + 'px';
+        });
+
+        // Previne clique caso o usuário seja muito rápido
+        btnNo.addEventListener('click', function(e) {
+            e.preventDefault();
+        });
+
+        // Troca de Telas
+        function nextScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Lógica de seleção de comida
+        let selectedFood = '';
+        function selectFood(element, foodName) {
+            document.querySelectorAll('.food-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedFood = foodName;
+        }
+
+        // Finalizar e preencher resumo
+        function finishSetup() {
+            const dateVal = document.getElementById('dateInput').value;
+            const timeVal = document.getElementById('timeInput').value;
+
+            if(!dateVal || !selectedFood) {
+                alert("Por favor, escolha um dia e o que vamos comer!");
+                return;
+            }
+
+            // Formatar data (YYYY-MM-DD para DD/MM/YYYY)
+            const dateObj = new Date(dateVal + 'T12:00:00'); // Evita bug de fuso horário
+            const formattedDate = dateObj.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+            document.getElementById('resDate').textContent = formattedDate;
+            document.getElementById('resTime').textContent = timeVal + 'h';
+            document.getElementById('resFood').textContent = selectedFood;
+
+            nextScreen('screen4');
+            triggerConfetti();
+        }
+
+        // Efeito de Confete
+        function triggerConfetti() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#d81b60', '#ffc107', '#00bcd4']
+            });
+        }
+    </script>
 </body>
 </html>
