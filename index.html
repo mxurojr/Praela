@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Um Convite Especial</title>
+    <!-- Biblioteca para o efeito de confetes -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -54,7 +55,7 @@
         p { font-size: 14px; color: #666; margin-bottom: 30px; line-height: 1.5; }
         .subtitle { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 20px; display: block;}
 
-        /* Imagem do Gato */
+        /* Imagem */
         .cat-img {
             width: 120px;
             height: 120px;
@@ -178,9 +179,11 @@
 <body>
 
     <div class="container">
+        <!-- TELA 1: O Convite -->
         <div id="screen1" class="screen active">
             <span class="subtitle">Um Convite</span>
-            <img src="https://i.pinimg.com/736x/8f/3e/21/8f3e2101e4ff0c0a3cd84d9f7a7ba3ca.jpg" alt="Gato triste" class="cat-img">
+            <!-- AQUI ESTÁ A IMAGEM ATUALIZADA DO EUROSAURUS -->
+            <img src="https://blog.petiko.com.br/wp-content/uploads/2018/02/eurosaurus.jpg" alt="Eurosaurus" class="cat-img">
             <h1>Você aceita sair comigo?</h1>
             <p>Sem pressão. Sério. Só uma noite, uma boa conversa e a chance de eu te fazer rir pelo menos três vezes.</p>
             
@@ -190,6 +193,7 @@
             </div>
         </div>
 
+        <!-- TELA 2: Data e Hora -->
         <div id="screen2" class="screen">
             <h1>😱 Isso é um SIM?</h1>
             <p>Eu juro que estava pronto para você negar. Já até tinha ensaiado o "tudo bem, sem problema".</p>
@@ -209,6 +213,7 @@
             <button class="btn-primary" onclick="nextScreen('screen3')">Combinado -></button>
         </div>
 
+        <!-- TELA 3: Comida -->
         <div id="screen3" class="screen">
             <span class="subtitle">Parte séria da noite</span>
             <h1>O que você quer comer?</h1>
@@ -226,6 +231,7 @@
             <button class="btn-primary" onclick="finishSetup()">Confirmar encontro <3</button>
         </div>
 
+        <!-- TELA 4: Resumo Final -->
         <div id="screen4" class="screen">
             <span class="subtitle">Está marcado</span>
             <h1>Então é um encontro.</h1>
