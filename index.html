@@ -3,1080 +3,955 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um Convite Especial</title>
 
-    <title>Um encontro? 💕</title>
+    <!-- Biblioteca para o efeito de confetes -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
+        /* =========================
+           FUNDO ROMÂNTICO
+        ========================= */
+
         body {
-            min-height: 100vh;
-            overflow: hidden;
-
-            font-family: Arial, Helvetica, sans-serif;
-
             background:
-                radial-gradient(
-                    circle at 20% 20%,
-                    rgba(255,255,255,0.65),
-                    transparent 25%
-                ),
-                linear-gradient(
-                    135deg,
-                    #ffd6e7,
-                    #ffc1dc,
-                    #f8b8d8
-                );
+                radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.45), transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(255, 105, 180, 0.25), transparent 30%),
+                linear-gradient(135deg, #fff0f5, #ffdce8, #fff5f8);
 
             display: flex;
             justify-content: center;
             align-items: center;
-
+            min-height: 100vh;
+            color: #333;
+            overflow: hidden;
             position: relative;
         }
 
-
-        /* =====================================
+        /* =========================
            CORAÇÕES FLUTUANDO
-        ===================================== */
+        ========================= */
 
         .hearts {
             position: fixed;
-
-            top: 0;
-            left: 0;
-
+            inset: 0;
             width: 100%;
             height: 100%;
-
             overflow: hidden;
-
             pointer-events: none;
-
-            z-index: 1;
+            z-index: 0;
         }
 
         .heart {
             position: absolute;
-
-            bottom: -80px;
-
-            color: #e85c93;
-
-            font-size: 30px;
-
-            opacity: 0.8;
-
-            animation-name: subir;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-
-            filter: drop-shadow(
-                0 3px 5px rgba(180,70,120,0.15)
-            );
+            bottom: -60px;
+            color: #e91e63;
+            opacity: 0;
+            font-size: 22px;
+            animation: floatHeart linear infinite;
         }
 
         .heart:nth-child(1) {
             left: 5%;
-            font-size: 28px;
-            animation-duration: 7s;
+            font-size: 20px;
+            animation-duration: 8s;
             animation-delay: 0s;
         }
 
         .heart:nth-child(2) {
-            left: 18%;
-            font-size: 20px;
-            animation-duration: 9s;
+            left: 15%;
+            font-size: 30px;
+            animation-duration: 10s;
             animation-delay: 2s;
         }
 
         .heart:nth-child(3) {
-            left: 32%;
-            font-size: 34px;
-            animation-duration: 8s;
+            left: 27%;
+            font-size: 18px;
+            animation-duration: 7s;
             animation-delay: 4s;
         }
 
         .heart:nth-child(4) {
-            left: 47%;
-            font-size: 22px;
-            animation-duration: 10s;
+            left: 40%;
+            font-size: 27px;
+            animation-duration: 11s;
             animation-delay: 1s;
         }
 
         .heart:nth-child(5) {
-            left: 63%;
-            font-size: 32px;
-            animation-duration: 7s;
-            animation-delay: 3s;
-        }
-
-        .heart:nth-child(6) {
-            left: 78%;
-            font-size: 24px;
+            left: 53%;
+            font-size: 21px;
             animation-duration: 9s;
             animation-delay: 5s;
         }
 
-        .heart:nth-child(7) {
-            left: 91%;
-            font-size: 30px;
-            animation-duration: 8s;
-            animation-delay: 2s;
+        .heart:nth-child(6) {
+            left: 65%;
+            font-size: 32px;
+            animation-duration: 12s;
+            animation-delay: 3s;
         }
 
+        .heart:nth-child(7) {
+            left: 77%;
+            font-size: 19px;
+            animation-duration: 8s;
+            animation-delay: 6s;
+        }
 
-        @keyframes subir {
+        .heart:nth-child(8) {
+            left: 88%;
+            font-size: 28px;
+            animation-duration: 10s;
+            animation-delay: 2.5s;
+        }
 
+        .heart:nth-child(9) {
+            left: 95%;
+            font-size: 17px;
+            animation-duration: 7s;
+            animation-delay: 5s;
+        }
+
+        @keyframes floatHeart {
             0% {
-                transform:
-                    translateY(0)
-                    rotate(0deg);
-
+                transform: translateY(0) rotate(0deg);
                 opacity: 0;
             }
 
             10% {
-                opacity: 0.75;
+                opacity: 0.7;
             }
 
             50% {
-                opacity: 0.9;
-            }
-
-            90% {
-                opacity: 0.55;
+                opacity: 0.85;
             }
 
             100% {
-                transform:
-                    translateY(-115vh)
-                    rotate(25deg);
-
+                transform: translateY(-115vh) rotate(25deg);
                 opacity: 0;
             }
         }
 
+        /* =========================
+           CONTAINER PRINCIPAL
+        ========================= */
 
-        /* =====================================
-           CARTÃO
-        ===================================== */
-
-        .card {
-            position: relative;
-
-            z-index: 5;
-
-            width: min(92%, 470px);
-
-            min-height: 650px;
-
-            padding: 35px 25px;
-
-            background:
-                rgba(255,255,255,0.82);
-
-            backdrop-filter: blur(12px);
-
-            border-radius: 30px;
-
+        .container {
+            background: rgba(255, 255, 255, 0.93);
+            padding: 40px;
+            border-radius: 25px;
             box-shadow:
-                0 20px 60px
-                rgba(150,50,100,0.20);
+                0 20px 60px rgba(180, 50, 100, 0.15),
+                0 5px 20px rgba(0, 0, 0, 0.05);
 
+            width: 100%;
+            max-width: 450px;
             text-align: center;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255, 182, 193, 0.4);
         }
 
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
 
-        /* =====================================
-           CÍRCULO DO GATINHO
-        ===================================== */
+        .screen.active {
+            display: block;
+        }
 
-        .image-circle {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
 
-            width: 260px;
-            height: 260px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-            flex-shrink: 0;
+        /* =========================
+           TIPOGRAFIA
+        ========================= */
 
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #7b173f;
+        }
+
+        h2 {
+            color: #7b173f;
+        }
+
+        p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #d81b60;
+            margin-bottom: 20px;
+            display: block;
+            font-weight: 700;
+        }
+
+        /* =========================
+           GATINHO + FLOR
+        ========================= */
+
+        .cat-img {
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle at 50% 35%,
-                    #fffafd,
-                    #ffd8e8
-                );
-
-            border: 7px solid white;
-
-            box-shadow:
-                0 10px 30px
-                rgba(150,50,100,0.20);
-
+            margin: 0 auto 20px;
             display: flex;
-
-            align-items: center;
             justify-content: center;
-
+            align-items: center;
+            position: relative;
             overflow: hidden;
 
-            margin-bottom: 25px;
-
-            position: relative;
-
-            z-index: 6;
-        }
-
-
-        /* brilho */
-
-        .image-circle::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 100px;
-            height: 100px;
-
             background:
-                rgba(255,255,255,0.65);
+                radial-gradient(circle at 30% 25%, #ffffff, transparent 20%),
+                linear-gradient(145deg, #ffe8f0, #ffc4d8);
 
-            border-radius: 50%;
+            box-shadow:
+                0 8px 25px rgba(216, 27, 96, 0.18),
+                inset 0 0 20px rgba(255, 255, 255, 0.6);
 
-            top: 10px;
-            left: 25px;
-
-            filter: blur(15px);
-
-            z-index: 1;
+            border: 4px solid rgba(255, 255, 255, 0.9);
         }
 
-
-        /* =====================================
-           GATINHO
-        ===================================== */
-
-        .cat {
-
-            position: relative;
-
-            width: 190px;
-            height: 190px;
-
-            flex-shrink: 0;
-
-            animation:
-                gatinho 3s ease-in-out infinite;
-
-            z-index: 10;
+        /* Gatinho */
+        .cat-emoji {
+            position: absolute;
+            font-size: 78px;
+            left: 13px;
+            bottom: 15px;
+            z-index: 2;
+            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.12));
+            animation: catBounce 2.5s ease-in-out infinite;
         }
 
+        /* Flor */
+        .flower-emoji {
+            position: absolute;
+            right: 10px;
+            bottom: 27px;
+            font-size: 52px;
+            z-index: 3;
+            transform: rotate(-12deg);
+            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.12));
+            animation: flowerMove 2s ease-in-out infinite;
+        }
 
-        @keyframes gatinho {
+        /* Pequeno coração acima do gatinho */
+        .cat-heart {
+            position: absolute;
+            top: 15px;
+            right: 24px;
+            font-size: 23px;
+            z-index: 4;
+            animation: littleHeart 1.8s ease-in-out infinite;
+        }
 
+        @keyframes catBounce {
             0%, 100% {
-                transform: translateY(0);
+                transform: translateY(0) rotate(-2deg);
             }
 
             50% {
-                transform: translateY(-7px);
+                transform: translateY(-5px) rotate(2deg);
             }
         }
 
+        @keyframes flowerMove {
+            0%, 100% {
+                transform: rotate(-12deg) translateY(0);
+            }
 
-        /* =====================================
-           ORELHAS
-        ===================================== */
-
-        .ear-left,
-        .ear-right {
-
-            position: absolute;
-
-            width: 48px;
-            height: 58px;
-
-            background: #fffafc;
-
-            border: 3px solid #e9b9cd;
-
-            top: 7px;
-
-            z-index: 2;
+            50% {
+                transform: rotate(-5deg) translateY(-5px);
+            }
         }
 
+        @keyframes littleHeart {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
 
-        .ear-left {
-
-            left: 35px;
-
-            transform: rotate(-30deg);
-
-            border-radius:
-                8px 35px 5px 30px;
+            50% {
+                transform: scale(1.25);
+                opacity: 1;
+            }
         }
 
-
-        .ear-right {
-
-            right: 35px;
-
-            transform: rotate(30deg);
-
-            border-radius:
-                35px 8px 30px 5px;
-        }
-
-
-        .ear-left::after,
-        .ear-right::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 21px;
-            height: 27px;
-
-            background: #ffc4d9;
-
-            border-radius: 50%;
-        }
-
-
-        .ear-left::after {
-
-            left: 10px;
-            top: 15px;
-        }
-
-
-        .ear-right::after {
-
-            right: 10px;
-            top: 15px;
-        }
-
-
-        /* =====================================
-           CABEÇA
-        ===================================== */
-
-        .cat-head {
-
-            position: absolute;
-
-            width: 120px;
-            height: 105px;
-
-            background: #fffafc;
-
-            border-radius:
-                48% 48% 45% 45%;
-
-            top: 32px;
-            left: 35px;
-
-            border: 3px solid #e9b9cd;
-
-            z-index: 3;
-        }
-
-
-        /* =====================================
-           OLHOS
-        ===================================== */
-
-        .eye {
-
-            position: absolute;
-
-            width: 14px;
-            height: 19px;
-
-            background: #5c4050;
-
-            border-radius: 50%;
-
-            top: 36px;
-
-            z-index: 5;
-        }
-
-
-        .eye::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 4px;
-            height: 6px;
-
-            background: white;
-
-            border-radius: 50%;
-
-            top: 3px;
-            left: 3px;
-        }
-
-
-        .eye.left {
-            left: 27px;
-        }
-
-
-        .eye.right {
-            right: 27px;
-        }
-
-
-        /* =====================================
-           NARIZ
-        ===================================== */
-
-        .nose {
-
-            position: absolute;
-
-            width: 13px;
-            height: 10px;
-
-            background: #e889aa;
-
-            border-radius: 50%;
-
-            top: 59px;
-            left: 51px;
-
-            z-index: 5;
-        }
-
-
-        /* =====================================
-           BOCA
-        ===================================== */
-
-        .mouth {
-
-            position: absolute;
-
-            top: 69px;
-            left: 49px;
-
-            width: 22px;
-            height: 12px;
-
-            border-bottom:
-                2px solid #9c657b;
-
-            border-radius:
-                0 0 50% 50%;
-
-            z-index: 5;
-        }
-
-
-        /* =====================================
-           BIGODES
-        ===================================== */
-
-        .whisker {
-
-            position: absolute;
-
-            width: 42px;
-            height: 2px;
-
-            background: #9c657b;
-
-            top: 91px;
-
-            z-index: 4;
-        }
-
-
-        .whisker.w1 {
-
-            left: 0;
-
-            transform:
-                rotate(10deg);
-        }
-
-
-        .whisker.w2 {
-
-            left: 0;
-
-            top: 101px;
-
-            transform:
-                rotate(-8deg);
-        }
-
-
-        .whisker.w3 {
-
-            right: 0;
-
-            transform:
-                rotate(-10deg);
-        }
-
-
-        .whisker.w4 {
-
-            right: 0;
-
-            top: 101px;
-
-            transform:
-                rotate(8deg);
-        }
-
-
-        /* =====================================
-           CORPO
-        ===================================== */
-
-        .cat-body {
-
-            position: absolute;
-
-            width: 108px;
-            height: 88px;
-
-            background: #fffafc;
-
-            border:
-                3px solid #e9b9cd;
-
-            border-radius:
-                55% 55% 45% 45%;
-
-            bottom: 10px;
-            left: 41px;
-
-            z-index: 1;
-        }
-
-
-        /* =====================================
-           PATAS
-        ===================================== */
-
-        .paw {
-
-            position: absolute;
-
-            width: 34px;
-            height: 44px;
-
-            background: #fffafc;
-
-            border:
-                3px solid #e9b9cd;
-
-            border-radius: 50%;
-
-            bottom: 5px;
-
-            z-index: 4;
-        }
-
-
-        .paw.left {
-            left: 40px;
-        }
-
-
-        .paw.right {
-            right: 40px;
-        }
-
-
-        /* =====================================
-           FLOR
-        ===================================== */
-
-        .flower {
-
-            position: absolute;
-
-            right: 0;
-
-            bottom: 43px;
-
-            width: 75px;
-            height: 105px;
-
-            z-index: 15;
-
-            transform:
-                rotate(-12deg);
-        }
-
-
-        /* caule */
-
-        .stem {
-
-            position: absolute;
-
-            width: 5px;
-            height: 70px;
-
-            background: #75ad78;
-
-            bottom: 0;
-
-            left: 35px;
-
-            border-radius: 10px;
-        }
-
-
-        /* pétalas */
-
-        .petal {
-
-            position: absolute;
-
-            width: 28px;
-            height: 36px;
-
-            background: #ff7fab;
-
-            border-radius: 50%;
-
-            top: 5px;
-            left: 22px;
-
-            transform-origin:
-                50% 100%;
-        }
-
-
-        .petal:nth-child(2) {
-            transform: rotate(72deg);
-        }
-
-
-        .petal:nth-child(3) {
-            transform: rotate(144deg);
-        }
-
-
-        .petal:nth-child(4) {
-            transform: rotate(216deg);
-        }
-
-
-        .petal:nth-child(5) {
-            transform: rotate(288deg);
-        }
-
-
-        /* centro da flor */
-
-        .flower-center {
-
-            position: absolute;
-
-            width: 19px;
-            height: 19px;
-
-            border-radius: 50%;
-
-            background: #ffd66b;
-
-            top: 14px;
-            left: 27px;
-
-            z-index: 20;
-        }
-
-
-        /* =====================================
-           TEXTO
-        ===================================== */
-
-        h1 {
-
-            color: #b84d7d;
-
-            font-size: 32px;
-
-            margin-bottom: 12px;
-        }
-
-
-        .subtitle {
-
-            color: #7c5365;
-
-            font-size: 17px;
-
-            line-height: 1.5;
-
-            max-width: 350px;
-
-            margin-bottom: 25px;
-        }
-
-
-        /* =====================================
+        /* =========================
            BOTÕES
-        ===================================== */
+        ========================= */
 
-        .buttons {
-
+        .btn-group {
             display: flex;
-
+            justify-content: center;
             gap: 15px;
-
-            margin-top: auto;
+            position: relative;
         }
-
 
         button {
-
+            padding: 12px 24px;
             border: none;
-
-            padding:
-                14px 30px;
-
-            border-radius: 50px;
-
+            border-radius: 12px;
             font-size: 16px;
-
-            font-weight: bold;
-
+            font-weight: 600;
             cursor: pointer;
-
-            transition: 0.25s;
+            transition: all 0.2s;
         }
 
-
-        .yes {
-
-            background: #e85c93;
-
+        .btn-yes {
+            background: linear-gradient(135deg, #d81b60, #ec407a);
             color: white;
-
-            box-shadow:
-                0 8px 20px
-                rgba(232,92,147,0.25);
+            box-shadow: 0 5px 15px rgba(216, 27, 96, 0.25);
         }
 
-
-        .yes:hover {
-
-            transform:
-                translateY(-3px)
-                scale(1.04);
-
-            background: #dc4b84;
+        .btn-yes:hover {
+            background: linear-gradient(135deg, #ad144b, #d81b60);
+            transform: translateY(-2px);
         }
 
-
-        .no {
-
-            background: white;
-
-            color: #b84d7d;
-
-            border:
-                2px solid #f0b2ca;
+        .btn-no {
+            background-color: #f4f4f4;
+            color: #666;
+            position: relative;
         }
 
-
-        .no:hover {
-
-            transform:
-                translateY(-3px);
+        .btn-primary {
+            background: linear-gradient(135deg, #d81b60, #ec407a);
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2);
         }
 
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
 
-        /* =====================================
-           CELULAR
-        ===================================== */
+        /* =========================
+           INPUTS
+        ========================= */
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        input[type="date"],
+        input[type="time"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #f0b6c9;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            background: #fff8fa;
+            color: #555;
+        }
+
+        input[type="date"]:focus,
+        input[type="time"]:focus {
+            outline: none;
+            border-color: #d81b60;
+            box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.08);
+        }
+
+        /* =========================
+           COMIDA
+        ========================= */
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .food-item {
+            background: #fff8fa;
+            border: 1px solid #f1c4d2;
+            padding: 15px 5px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .food-item:hover {
+            border-color: #d81b60;
+            transform: translateY(-2px);
+        }
+
+        .food-item.selected {
+            border-color: #d81b60;
+            background-color: #ffe8f0;
+            color: #d81b60;
+            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.1);
+        }
+
+        .food-item span {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* =========================
+           TELA FINAL
+        ========================= */
+
+        .summary-card {
+            background: #fff8fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            border: 1px dashed #e9a8bd;
+        }
+
+        .summary-row {
+            display: flex;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #f5dce5;
+            padding-bottom: 10px;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .summary-label {
+            width: 60px;
+            font-weight: bold;
+            color: #c27a93;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .summary-value {
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 500px) {
-
-            .card {
-
-                min-height: 620px;
-
-                padding:
-                    28px 18px;
+            .container {
+                width: calc(100% - 30px);
+                padding: 30px 22px;
             }
-
-
-            .image-circle {
-
-                width: 225px;
-                height: 225px;
-            }
-
-
-            .cat {
-
-                transform:
-                    scale(0.88);
-            }
-
 
             h1 {
-
-                font-size: 27px;
+                font-size: 22px;
             }
 
-
-            .subtitle {
-
-                font-size: 15px;
+            .cat-img {
+                width: 130px;
+                height: 130px;
             }
 
-
-            .buttons {
-
-                flex-direction: column;
-
-                width: 100%;
-            }
-
-
-            button {
-
-                width: 100%;
+            .food-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- =====================================
-         CORAÇÕES
-    ===================================== -->
+    <!-- =========================
+         CORAÇÕES NO FUNDO
+    ========================= -->
 
     <div class="hearts">
-
-        <div class="heart">❤️</div>
-
-        <div class="heart">💕</div>
-
-        <div class="heart">💗</div>
-
-        <div class="heart">💖</div>
-
-        <div class="heart">❤️</div>
-
-        <div class="heart">💕</div>
-
-        <div class="heart">💗</div>
-
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
     </div>
 
 
+    <div class="container">
 
-    <!-- =====================================
-         CARTÃO
-    ===================================== -->
+        <!-- =========================
+             TELA 1: O CONVITE
+        ========================= -->
 
-    <main class="card">
+        <div id="screen1" class="screen active">
 
+            <span class="subtitle">Um Convite 💌</span>
 
-        <!-- =================================
-             CÍRCULO DO GATINHO
-        ================================== -->
+            <!-- Gatinho entregando flor -->
+            <div class="cat-img" aria-label="Gatinho fofo entregando uma flor">
 
-        <div class="image-circle">
+                <div class="cat-heart">💗</div>
 
-
-            <div class="cat">
-
-
-                <!-- ORELHAS -->
-
-                <div class="ear-left"></div>
-
-                <div class="ear-right"></div>
-
-
-                <!-- CORPO -->
-
-                <div class="cat-body"></div>
-
-
-                <!-- CABEÇA -->
-
-                <div class="cat-head">
-
-
-                    <!-- OLHOS -->
-
-                    <div class="eye left"></div>
-
-                    <div class="eye right"></div>
-
-
-                    <!-- NARIZ -->
-
-                    <div class="nose"></div>
-
-
-                    <!-- BOCA -->
-
-                    <div class="mouth"></div>
-
-
+                <div class="cat-emoji">
+                    🐱
                 </div>
 
-
-                <!-- BIGODES -->
-
-                <div class="whisker w1"></div>
-
-                <div class="whisker w2"></div>
-
-                <div class="whisker w3"></div>
-
-                <div class="whisker w4"></div>
-
-
-                <!-- PATAS -->
-
-                <div class="paw left"></div>
-
-                <div class="paw right"></div>
-
-
-                <!-- =================================
-                     FLOR
-                ================================== -->
-
-                <div class="flower">
-
-                    <div class="stem"></div>
-
-                    <div class="petal"></div>
-
-                    <div class="petal"></div>
-
-                    <div class="petal"></div>
-
-                    <div class="petal"></div>
-
-                    <div class="petal"></div>
-
-                    <div class="flower-center"></div>
-
+                <div class="flower-emoji">
+                    🌹
                 </div>
 
+            </div>
+
+            <h1>Você aceita sair comigo?</h1>
+
+            <p>
+                Sem pressão. Sério. Só uma noite, uma boa conversa e a chance de eu te fazer rir pelo menos três vezes.
+            </p>
+
+            <div class="btn-group">
+
+                <button
+                    class="btn-yes"
+                    onclick="nextScreen('screen2'); triggerConfetti();">
+                    Sim, aceito &lt;3
+                </button>
+
+                <button
+                    class="btn-no"
+                    id="btn-no">
+                    Não
+                </button>
 
             </div>
 
         </div>
 
 
+        <!-- =========================
+             TELA 2: DATA E HORA
+        ========================= -->
 
-        <!-- =====================================
-             TEXTO
-        ===================================== -->
+        <div id="screen2" class="screen">
 
-        <h1>
-            Tenho uma pergunta... 💕
-        </h1>
+            <h1>😱 Isso é um SIM?</h1>
 
+            <p>
+                Eu juro que estava pronto para você negar. Já até tinha ensaiado o "tudo bem, sem problema".
+            </p>
 
-        <p class="subtitle">
+            <h2 style="font-size: 18px; margin-bottom: 20px;">
+                Então me diz: que dia você está livre?
+            </h2>
 
-            E se a gente deixasse de só conversar
-            e finalmente marcasse aquele encontro? 🌹
+            <div class="input-group">
 
-        </p>
+                <label>A Data</label>
 
+                <input
+                    type="date"
+                    id="dateInput">
 
+            </div>
 
-        <!-- =====================================
-             BOTÕES
-        ===================================== -->
+            <div class="input-group">
 
-        <div class="buttons">
+                <label>O Horário</label>
 
+                <input
+                    type="time"
+                    id="timeInput"
+                    value="20:00">
+
+            </div>
 
             <button
-                class="yes"
-                onclick="sim()">
+                class="btn-primary"
+                onclick="nextScreen('screen3')">
 
-                Sim 💗
-
-            </button>
-
-
-            <button
-                class="no"
-                onclick="nao()">
-
-                Talvez 😳
+                Combinado ->
 
             </button>
-
 
         </div>
 
 
-    </main>
+        <!-- =========================
+             TELA 3: COMIDA
+        ========================= -->
+
+        <div id="screen3" class="screen">
+
+            <span class="subtitle">
+                Parte séria da noite
+            </span>
+
+            <h1>
+                O que você quer comer?
+            </h1>
+
+            <p style="font-size: 12px;">
+                Escolha uma. Eu cuido da reserva, do caminho e de fingir que sei escolher vinho.
+            </p>
+
+            <div class="food-grid" id="foodGrid">
+
+                <div
+                    class="food-item"
+                    onclick="selectFood(this, 'Pizza')">
+                    <span>🍕</span>
+                    Pizza
+                </div>
+
+                <div
+                    class="food-item"
+                    onclick="selectFood(this, 'Sushi')">
+                    <span>🍣</span>
+                    Sushi
+                </div>
+
+                <div
+                    class="food-item"
+                    onclick="selectFood(this, 'Hot Dog')">
+                    <span>🌭</span>
+                    Hot Dog
+                </div>
+
+                <div
+                    class="food-item"
+                    onclick="selectFood(this, 'Hambúrguer')">
+                    <span>🍔</span>
+                    Lanche
+                </div>
+
+                <div
+                    class="food-item"
+                    onclick="selectFood(this, 'Carne')">
+                    <span>🥩</span>
+                    Carne
+                </div>
+
+                <div
+                    class="food-item"
+                    onclick="selectFood(this, 'Italiano')">
+                    <span>🍝</span>
+                    Italiano
+                </div>
+
+            </div>
+
+            <button
+                class="btn-primary"
+                onclick="finishSetup()">
+
+                Confirmar encontro &lt;3
+
+            </button>
+
+        </div>
 
 
+        <!-- =========================
+             TELA 4: RESUMO FINAL
+        ========================= -->
 
-    <!-- =====================================
-         JAVASCRIPT
-    ===================================== -->
+        <div id="screen4" class="screen">
+
+            <span class="subtitle">
+                Está marcado 💗
+            </span>
+
+            <h1>
+                Então é um encontro.
+            </h1>
+
+            <p>
+                Guarda esse print. É a prova de que você disse sim antes de eu perder a coragem de perguntar de novo.
+            </p>
+
+            <div class="summary-card">
+
+                <div class="summary-row">
+
+                    <div class="summary-label">
+                        DIA
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="resDate">
+                        -
+                    </div>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <div class="summary-label">
+                        HORA
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="resTime">
+                        -
+                    </div>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <div class="summary-label">
+                        MENU
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="resFood">
+                        -
+                    </div>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <div class="summary-label">
+                        NOTA
+                    </div>
+
+                    <div class="summary-value">
+                        Nenhuma. Só apareça.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="btn-no"
+                style="margin-top: 20px; width: 100%;"
+                onclick="location.reload()">
+
+                Refazer
+
+            </button>
+
+        </div>
+
+    </div>
+
 
     <script>
 
-        function sim() {
+        /* =========================
+           BOTÃO "NÃO" FUJÃO
+        ========================= */
 
-            alert(
-                "Eu sabia! 😳❤️ Agora só falta escolher o dia."
-            );
+        const btnNo = document.getElementById('btn-no');
+
+        btnNo.addEventListener('mouseover', function() {
+
+            this.style.position = 'fixed';
+
+            const maxX =
+                window.innerWidth -
+                this.offsetWidth -
+                20;
+
+            const maxY =
+                window.innerHeight -
+                this.offsetHeight -
+                20;
+
+            const randomX =
+                Math.max(
+                    20,
+                    Math.floor(Math.random() * maxX)
+                );
+
+            const randomY =
+                Math.max(
+                    20,
+                    Math.floor(Math.random() * maxY)
+                );
+
+            this.style.left = randomX + 'px';
+            this.style.top = randomY + 'px';
+
+        });
+
+
+        /* =========================
+           PREVINE CLIQUE NO NÃO
+        ========================= */
+
+        btnNo.addEventListener('click', function(e) {
+
+            e.preventDefault();
+
+        });
+
+
+        /* =========================
+           TROCA DE TELAS
+        ========================= */
+
+        function nextScreen(screenId) {
+
+            document
+                .querySelectorAll('.screen')
+                .forEach(s => s.classList.remove('active'));
+
+            document
+                .getElementById(screenId)
+                .classList.add('active');
 
         }
 
 
-        function nao() {
+        /* =========================
+           SELEÇÃO DE COMIDA
+        ========================= */
 
-            alert(
-                "Tudo bem... mas o gatinho vai continuar esperando com a flor 🥹🌹"
-            );
+        let selectedFood = '';
+
+        function selectFood(element, foodName) {
+
+            document
+                .querySelectorAll('.food-item')
+                .forEach(item =>
+                    item.classList.remove('selected')
+                );
+
+            element.classList.add('selected');
+
+            selectedFood = foodName;
+
+        }
+
+
+        /* =========================
+           FINALIZAR CONFIGURAÇÃO
+        ========================= */
+
+        function finishSetup() {
+
+            const dateVal =
+                document.getElementById('dateInput').value;
+
+            const timeVal =
+                document.getElementById('timeInput').value;
+
+
+            if (!dateVal || !selectedFood) {
+
+                alert(
+                    "Por favor, escolha um dia e o que vamos comer!"
+                );
+
+                return;
+
+            }
+
+
+            /* Formatar data */
+
+            const dateObj =
+                new Date(dateVal + 'T12:00:00');
+
+            const formattedDate =
+                dateObj.toLocaleDateString(
+                    'pt-BR',
+                    {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long'
+                    }
+                );
+
+
+            document.getElementById('resDate').textContent =
+                formattedDate;
+
+            document.getElementById('resTime').textContent =
+                timeVal + 'h';
+
+            document.getElementById('resFood').textContent =
+                selectedFood;
+
+
+            nextScreen('screen4');
+
+            triggerConfetti();
+
+        }
+
+
+        /* =========================
+           EFEITO DE CONFETES
+        ========================= */
+
+        function triggerConfetti() {
+
+            confetti({
+
+                particleCount: 150,
+
+                spread: 70,
+
+                origin: {
+                    y: 0.6
+                },
+
+                colors: [
+                    '#d81b60',
+                    '#ffc107',
+                    '#00bcd4'
+                ]
+
+            });
 
         }
 
     </script>
 
-
 </body>
-
 </html>
