@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Um Convite Especial</title>
     <!-- Biblioteca para o efeito de confetes -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://jsdelivr.net"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        @import url('https://googleapis.com');
 
         * {
             margin: 0;
@@ -17,7 +17,6 @@
         }
 
         body {
-            /* Fundo com um degradê elegante do vermelho para o rosa escuro */
             background: linear-gradient(135deg, #bd1f42, #7a0e27);
             display: flex;
             justify-content: center;
@@ -49,20 +48,10 @@
         }
 
         @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-105vh) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
         }
 
         .container {
@@ -74,7 +63,7 @@
             max-width: 450px;
             text-align: center;
             position: relative;
-            z-index: 2; /* Garante que o cartão fique na frente dos corações */
+            z-index: 2;
         }
 
         .screen {
@@ -144,6 +133,18 @@
             width: 100%;
             margin-top: 20px;
         }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-whatsapp:hover { background-color: #128C7E; }
 
         /* Inputs e Grid */
         .input-group {
@@ -219,20 +220,18 @@
 </head>
 <body>
 
-    <!-- Elemento para conter os corações flutuantes -->
     <div class="heart-background" id="heartBg"></div>
 
     <div class="container">
         <!-- TELA 1: O Convite -->
         <div id="screen1" class="screen active">
             <span class="subtitle">Um Convite</span>
-            <!-- Nova imagem do cachorro sorrindo com flor adicionada diretamente -->
-            <img src="https://blog.petiko.com.br/wp-content/uploads/2018/02/eurosaurus.jpg" alt="Cachorrinho Sorrindo" class="cat-img">
+            <img src="https://petiko.com.br" alt="Cachorrinho Sorrindo" class="cat-img">
             <h1>Você aceita sair comigo?</h1>
             <p>Sem pressão. Sério. Só uma noite, uma boa conversa e a chance de eu te fazer rir pelo menos três vezes.</p>
             
             <div class="btn-group">
-                <button class="btn-yes" onclick="nextScreen('screen2'); triggerConfetti();">Sim, aceito <3</button>
+                <button class="btn-yes" id="btn-yes">Sim, aceito <3</button>
                 <button class="btn-no" id="btn-no">Não</button>
             </div>
         </div>
@@ -241,20 +240,18 @@
         <div id="screen2" class="screen">
             <h1>😱 Isso é um SIM?</h1>
             <p>Eu juro que estava pronto para você negar. Já até tinha ensaiado o "tudo bem, sem problema".</p>
-            
             <h2 style="font-size: 18px; margin-bottom: 20px;">Então me diz: que dia você está livre?</h2>
             
             <div class="input-group">
                 <label>A Data</label>
                 <input type="date" id="dateInput">
             </div>
-            
             <div class="input-group">
                 <label>O Horário</label>
                 <input type="time" id="timeInput" value="20:00">
             </div>
 
-            <button class="btn-primary" onclick="nextScreen('screen3')">Combinado -></button>
+            <button class="btn-primary" id="btn-go-to-food">Combinado -></button>
         </div>
 
         <!-- TELA 3: Comida -->
@@ -264,22 +261,22 @@
             <p style="font-size: 12px;">Escolha uma. Eu cuido da reserva, do caminho e de fingir que sei escolher vinho.</p>
             
             <div class="food-grid" id="foodGrid">
-                <div class="food-item" onclick="selectFood(this, 'Pizza')"><span>🍕</span> Pizza</div>
-                <div class="food-item" onclick="selectFood(this, 'Sushi')"><span>🍣</span> Sushi</div>
-                <div class="food-item" onclick="selectFood(this, 'Hot Dog')"><span>🌭</span> Hot Dog</div>
-                <div class="food-item" onclick="selectFood(this, 'Hambúrguer')"><span>🍔</span> Lanche</div>
-                <div class="food-item" onclick="selectFood(this, 'Carne')"><span>🥩</span> Carne</div>
-                <div class="food-item" onclick="selectFood(this, 'Italiano')"><span>🍝</span> Italiano</div>
+                <div class="food-item" data-food="Pizza"><span>🍕</span> Pizza</div>
+                <div class="food-item" data-food="Sushi"><span>🍣</span> Sushi</div>
+                <div class="food-item" data-food="Hot Dog"><span>🌭</span> Hot Dog</div>
+                <div class="food-item" data-food="Hambúrguer"><span>🍔</span> Lanche</div>
+                <div class="food-item" data-food="Carne"><span>🥩</span> Carne</div>
+                <div class="food-item" data-food="Italiano"><span>🍝</span> Italiano</div>
             </div>
 
-            <button class="btn-primary" onclick="finishSetup()">Confirmar encontro <3</button>
+            <button class="btn-primary" id="btn-confirm-all">Confirmar encontro <3</button>
         </div>
 
         <!-- TELA 4: Resumo Final -->
         <div id="screen4" class="screen">
             <span class="subtitle">Está marcado</span>
-            <h1>Então é um encontro.</h1>
-            <p>Guarda esse print. É a prova de que você disse sim antes de eu perder a coragem de perguntar de novo.</p>
+            <h1>Então é um encontro!</h1>
+            <p>Clique no botão abaixo para me enviar as opções que você escolheu direto no meu WhatsApp!</p>
             
             <div class="summary-card">
                 <div class="summary-row">
@@ -295,9 +292,16 @@
                     <div class="summary-value" id="resFood">-</div>
                 </div>
             </div>
+
+            <button class="btn-whatsapp" id="btn-whatsapp">Enviar no WhatsApp 💬</button>
         </div>
     </div>
 
     <script>
+        // DIGITE SEU NÚMERO DE WHATSAPP AQUI (Com DDD, apenas números)
+        const SEU_TELEFONE = "5511999999999"; 
+
         let selectedFoodItem = '';
 
+        function createHearts() {
+            const bg = document.getElementById('heartBg');
