@@ -7,6 +7,7 @@
     <title>Um encontro? 💕</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -16,152 +17,216 @@
         body {
             min-height: 100vh;
             overflow: hidden;
+
             font-family: Arial, Helvetica, sans-serif;
 
             background:
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.55), transparent 25%),
-                linear-gradient(135deg, #ffd6e7, #ffc1dc, #f8b8d8);
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(255,255,255,0.65),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    135deg,
+                    #ffd6e7,
+                    #ffc1dc,
+                    #f8b8d8
+                );
 
             display: flex;
             justify-content: center;
             align-items: center;
+
+            position: relative;
         }
 
-        /* -------------------------
-           CORAÇÕES DO FUNDO
-        ------------------------- */
+
+        /* =====================================
+           CORAÇÕES FLUTUANDO
+        ===================================== */
 
         .hearts {
             position: fixed;
-            inset: 0;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
             overflow: hidden;
+
             pointer-events: none;
-            z-index: 0;
+
+            z-index: 1;
         }
 
         .heart {
             position: absolute;
-            bottom: -60px;
-            font-size: 25px;
-            opacity: 0;
-            animation: subir linear infinite;
+
+            bottom: -80px;
+
+            color: #e85c93;
+
+            font-size: 30px;
+
+            opacity: 0.8;
+
+            animation-name: subir;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+
+            filter: drop-shadow(
+                0 3px 5px rgba(180,70,120,0.15)
+            );
         }
 
         .heart:nth-child(1) {
-            left: 8%;
+            left: 5%;
+            font-size: 28px;
             animation-duration: 7s;
             animation-delay: 0s;
         }
 
         .heart:nth-child(2) {
-            left: 20%;
+            left: 18%;
+            font-size: 20px;
             animation-duration: 9s;
             animation-delay: 2s;
-            font-size: 18px;
         }
 
         .heart:nth-child(3) {
-            left: 35%;
+            left: 32%;
+            font-size: 34px;
             animation-duration: 8s;
             animation-delay: 4s;
-            font-size: 30px;
         }
 
         .heart:nth-child(4) {
-            left: 50%;
+            left: 47%;
+            font-size: 22px;
             animation-duration: 10s;
             animation-delay: 1s;
-            font-size: 20px;
         }
 
         .heart:nth-child(5) {
-            left: 65%;
+            left: 63%;
+            font-size: 32px;
             animation-duration: 7s;
             animation-delay: 3s;
-            font-size: 32px;
         }
 
         .heart:nth-child(6) {
             left: 78%;
+            font-size: 24px;
             animation-duration: 9s;
             animation-delay: 5s;
-            font-size: 22px;
         }
 
         .heart:nth-child(7) {
-            left: 90%;
+            left: 91%;
+            font-size: 30px;
             animation-duration: 8s;
             animation-delay: 2s;
-            font-size: 28px;
         }
 
+
         @keyframes subir {
+
             0% {
-                transform: translateY(0) rotate(0deg);
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
                 opacity: 0;
             }
 
-            15% {
-                opacity: 0.7;
+            10% {
+                opacity: 0.75;
             }
 
-            80% {
-                opacity: 0.5;
+            50% {
+                opacity: 0.9;
+            }
+
+            90% {
+                opacity: 0.55;
             }
 
             100% {
-                transform: translateY(-110vh) rotate(25deg);
+                transform:
+                    translateY(-115vh)
+                    rotate(25deg);
+
                 opacity: 0;
             }
         }
 
-        /* -------------------------
-           CARTÃO PRINCIPAL
-        ------------------------- */
+
+        /* =====================================
+           CARTÃO
+        ===================================== */
 
         .card {
             position: relative;
-            z-index: 2;
+
+            z-index: 5;
 
             width: min(92%, 470px);
+
             min-height: 650px;
 
             padding: 35px 25px;
 
-            background: rgba(255, 255, 255, 0.78);
+            background:
+                rgba(255,255,255,0.82);
+
             backdrop-filter: blur(12px);
 
             border-radius: 30px;
 
             box-shadow:
-                0 20px 60px rgba(150, 50, 100, 0.18);
+                0 20px 60px
+                rgba(150,50,100,0.20);
 
             text-align: center;
 
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
         }
 
-        /* -------------------------
-           CÍRCULO DA IMAGEM
-        ------------------------- */
+
+        /* =====================================
+           CÍRCULO DO GATINHO
+        ===================================== */
 
         .image-circle {
+
             width: 260px;
             height: 260px;
+
+            flex-shrink: 0;
 
             border-radius: 50%;
 
             background:
-                radial-gradient(circle at 50% 35%, #fff7fb, #ffd8e8);
+                radial-gradient(
+                    circle at 50% 35%,
+                    #fffafd,
+                    #ffd8e8
+                );
 
             border: 7px solid white;
 
             box-shadow:
-                0 10px 30px rgba(150, 50, 100, 0.20);
+                0 10px 30px
+                rgba(150,50,100,0.20);
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -170,44 +235,58 @@
             margin-bottom: 25px;
 
             position: relative;
+
+            z-index: 6;
         }
 
-        /* brilho no círculo */
+
+        /* brilho */
 
         .image-circle::before {
+
             content: "";
+
             position: absolute;
 
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
 
-            background: rgba(255,255,255,0.6);
+            background:
+                rgba(255,255,255,0.65);
 
             border-radius: 50%;
 
-            top: 15px;
+            top: 10px;
             left: 25px;
 
-            filter: blur(12px);
+            filter: blur(15px);
+
+            z-index: 1;
         }
 
-        /* -------------------------
+
+        /* =====================================
            GATINHO
-        ------------------------- */
+        ===================================== */
 
         .cat {
+
             position: relative;
+
             width: 190px;
             height: 190px;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-shrink: 0;
 
-            animation: gatinho 3s ease-in-out infinite;
+            animation:
+                gatinho 3s ease-in-out infinite;
+
+            z-index: 10;
         }
 
+
         @keyframes gatinho {
+
             0%, 100% {
                 transform: translateY(0);
             }
@@ -217,98 +296,129 @@
             }
         }
 
-        /* cabeça */
 
-        .cat-head {
-            position: absolute;
-
-            width: 115px;
-            height: 100px;
-
-            background: #fffafc;
-
-            border-radius: 48% 48% 45% 45%;
-
-            top: 30px;
-            left: 38px;
-
-            border: 3px solid #e9b9cd;
-
-            z-index: 3;
-        }
-
-        /* orelhas */
+        /* =====================================
+           ORELHAS
+        ===================================== */
 
         .ear-left,
         .ear-right {
+
             position: absolute;
 
-            width: 45px;
-            height: 55px;
+            width: 48px;
+            height: 58px;
 
             background: #fffafc;
 
             border: 3px solid #e9b9cd;
 
-            z-index: 2;
+            top: 7px;
 
-            top: 5px;
+            z-index: 2;
         }
+
 
         .ear-left {
-            left: 38px;
+
+            left: 35px;
+
             transform: rotate(-30deg);
-            border-radius: 8px 35px 5px 30px;
+
+            border-radius:
+                8px 35px 5px 30px;
         }
 
+
         .ear-right {
-            right: 38px;
+
+            right: 35px;
+
             transform: rotate(30deg);
-            border-radius: 35px 8px 30px 5px;
+
+            border-radius:
+                35px 8px 30px 5px;
         }
+
 
         .ear-left::after,
         .ear-right::after {
+
             content: "";
 
             position: absolute;
 
-            width: 20px;
-            height: 25px;
+            width: 21px;
+            height: 27px;
 
             background: #ffc4d9;
 
             border-radius: 50%;
         }
 
+
         .ear-left::after {
+
             left: 10px;
             top: 15px;
         }
 
+
         .ear-right::after {
+
             right: 10px;
             top: 15px;
         }
 
-        /* olhos */
 
-        .eye {
+        /* =====================================
+           CABEÇA
+        ===================================== */
+
+        .cat-head {
+
             position: absolute;
 
-            width: 13px;
-            height: 18px;
+            width: 120px;
+            height: 105px;
+
+            background: #fffafc;
+
+            border-radius:
+                48% 48% 45% 45%;
+
+            top: 32px;
+            left: 35px;
+
+            border: 3px solid #e9b9cd;
+
+            z-index: 3;
+        }
+
+
+        /* =====================================
+           OLHOS
+        ===================================== */
+
+        .eye {
+
+            position: absolute;
+
+            width: 14px;
+            height: 19px;
 
             background: #5c4050;
 
             border-radius: 50%;
 
-            top: 68px;
+            top: 36px;
 
             z-index: 5;
         }
 
+
         .eye::after {
+
             content: "";
 
             position: absolute;
@@ -324,57 +434,73 @@
             left: 3px;
         }
 
+
         .eye.left {
-            left: 65px;
+            left: 27px;
         }
+
 
         .eye.right {
-            right: 65px;
+            right: 27px;
         }
 
-        /* nariz */
+
+        /* =====================================
+           NARIZ
+        ===================================== */
 
         .nose {
+
             position: absolute;
 
-            width: 12px;
-            height: 9px;
+            width: 13px;
+            height: 10px;
 
             background: #e889aa;
 
             border-radius: 50%;
 
-            top: 88px;
-            left: 52px;
+            top: 59px;
+            left: 51px;
 
             z-index: 5;
         }
 
-        /* boca */
+
+        /* =====================================
+           BOCA
+        ===================================== */
 
         .mouth {
+
             position: absolute;
 
-            top: 96px;
-            left: 52px;
+            top: 69px;
+            left: 49px;
 
-            width: 20px;
-            height: 10px;
+            width: 22px;
+            height: 12px;
 
-            border-bottom: 2px solid #9c657b;
+            border-bottom:
+                2px solid #9c657b;
 
-            border-radius: 0 0 50% 50%;
+            border-radius:
+                0 0 50% 50%;
 
             z-index: 5;
         }
 
-        /* bigodes */
+
+        /* =====================================
+           BIGODES
+        ===================================== */
 
         .whisker {
+
             position: absolute;
 
             width: 42px;
-            height: 1px;
+            height: 2px;
 
             background: #9c657b;
 
@@ -383,59 +509,88 @@
             z-index: 4;
         }
 
+
         .whisker.w1 {
+
             left: 0;
-            transform: rotate(10deg);
+
+            transform:
+                rotate(10deg);
         }
+
 
         .whisker.w2 {
+
             left: 0;
+
             top: 101px;
-            transform: rotate(-8deg);
+
+            transform:
+                rotate(-8deg);
         }
+
 
         .whisker.w3 {
+
             right: 0;
-            transform: rotate(-10deg);
+
+            transform:
+                rotate(-10deg);
         }
+
 
         .whisker.w4 {
+
             right: 0;
+
             top: 101px;
-            transform: rotate(8deg);
+
+            transform:
+                rotate(8deg);
         }
 
-        /* corpo */
+
+        /* =====================================
+           CORPO
+        ===================================== */
 
         .cat-body {
+
             position: absolute;
 
-            width: 105px;
-            height: 85px;
+            width: 108px;
+            height: 88px;
 
             background: #fffafc;
 
-            border: 3px solid #e9b9cd;
+            border:
+                3px solid #e9b9cd;
 
-            border-radius: 55% 55% 45% 45%;
+            border-radius:
+                55% 55% 45% 45%;
 
             bottom: 10px;
-            left: 43px;
+            left: 41px;
 
             z-index: 1;
         }
 
-        /* patas */
+
+        /* =====================================
+           PATAS
+        ===================================== */
 
         .paw {
+
             position: absolute;
 
-            width: 32px;
-            height: 42px;
+            width: 34px;
+            height: 44px;
 
             background: #fffafc;
 
-            border: 3px solid #e9b9cd;
+            border:
+                3px solid #e9b9cd;
 
             border-radius: 50%;
 
@@ -444,97 +599,125 @@
             z-index: 4;
         }
 
+
         .paw.left {
-            left: 42px;
+            left: 40px;
         }
+
 
         .paw.right {
-            right: 42px;
+            right: 40px;
         }
 
-        /* -------------------------
+
+        /* =====================================
            FLOR
-        ------------------------- */
+        ===================================== */
 
         .flower {
+
             position: absolute;
 
-            right: 8px;
-            bottom: 42px;
+            right: 0;
 
-            width: 70px;
-            height: 100px;
+            bottom: 43px;
 
-            z-index: 6;
+            width: 75px;
+            height: 105px;
 
-            transform: rotate(-12deg);
+            z-index: 15;
+
+            transform:
+                rotate(-12deg);
         }
 
+
+        /* caule */
+
         .stem {
+
             position: absolute;
 
-            width: 4px;
-            height: 65px;
+            width: 5px;
+            height: 70px;
 
             background: #75ad78;
 
             bottom: 0;
-            left: 33px;
+
+            left: 35px;
 
             border-radius: 10px;
         }
 
+
+        /* pétalas */
+
         .petal {
+
             position: absolute;
 
-            width: 27px;
-            height: 35px;
+            width: 28px;
+            height: 36px;
 
             background: #ff7fab;
 
             border-radius: 50%;
 
             top: 5px;
-            left: 20px;
+            left: 22px;
+
+            transform-origin:
+                50% 100%;
         }
+
 
         .petal:nth-child(2) {
             transform: rotate(72deg);
         }
 
+
         .petal:nth-child(3) {
             transform: rotate(144deg);
         }
+
 
         .petal:nth-child(4) {
             transform: rotate(216deg);
         }
 
+
         .petal:nth-child(5) {
             transform: rotate(288deg);
         }
 
+
+        /* centro da flor */
+
         .flower-center {
+
             position: absolute;
 
-            width: 18px;
-            height: 18px;
+            width: 19px;
+            height: 19px;
 
             border-radius: 50%;
 
             background: #ffd66b;
 
             top: 14px;
-            left: 25px;
+            left: 27px;
 
-            z-index: 2;
+            z-index: 20;
         }
 
-        /* -------------------------
+
+        /* =====================================
            TEXTO
-        ------------------------- */
+        ===================================== */
 
         h1 {
+
             color: #b84d7d;
 
             font-size: 32px;
@@ -542,7 +725,9 @@
             margin-bottom: 12px;
         }
 
+
         .subtitle {
+
             color: #7c5365;
 
             font-size: 17px;
@@ -554,21 +739,27 @@
             margin-bottom: 25px;
         }
 
-        /* -------------------------
+
+        /* =====================================
            BOTÕES
-        ------------------------- */
+        ===================================== */
 
         .buttons {
+
             display: flex;
+
             gap: 15px;
 
             margin-top: auto;
         }
 
+
         button {
+
             border: none;
 
-            padding: 14px 30px;
+            padding:
+                14px 30px;
 
             border-radius: 50px;
 
@@ -581,185 +772,311 @@
             transition: 0.25s;
         }
 
+
         .yes {
+
             background: #e85c93;
 
             color: white;
 
-            box-shadow: 0 8px 20px rgba(232,92,147,0.25);
+            box-shadow:
+                0 8px 20px
+                rgba(232,92,147,0.25);
         }
 
+
         .yes:hover {
-            transform: translateY(-3px) scale(1.04);
+
+            transform:
+                translateY(-3px)
+                scale(1.04);
+
             background: #dc4b84;
         }
 
+
         .no {
+
             background: white;
 
             color: #b84d7d;
 
-            border: 2px solid #f0b2ca;
+            border:
+                2px solid #f0b2ca;
         }
+
 
         .no:hover {
-            transform: translateY(-3px);
+
+            transform:
+                translateY(-3px);
         }
 
-        /* -------------------------
-           RESPONSIVO
-        ------------------------- */
+
+        /* =====================================
+           CELULAR
+        ===================================== */
 
         @media (max-width: 500px) {
 
             .card {
+
                 min-height: 620px;
-                padding: 28px 18px;
+
+                padding:
+                    28px 18px;
             }
 
+
             .image-circle {
+
                 width: 225px;
                 height: 225px;
             }
 
+
+            .cat {
+
+                transform:
+                    scale(0.88);
+            }
+
+
             h1 {
+
                 font-size: 27px;
             }
 
+
             .subtitle {
+
                 font-size: 15px;
             }
 
+
             .buttons {
+
                 flex-direction: column;
+
                 width: 100%;
             }
 
+
             button {
+
                 width: 100%;
             }
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- CORAÇÕES -->
+
+    <!-- =====================================
+         CORAÇÕES
+    ===================================== -->
+
     <div class="hearts">
 
         <div class="heart">❤️</div>
+
         <div class="heart">💕</div>
+
         <div class="heart">💗</div>
+
         <div class="heart">💖</div>
+
         <div class="heart">❤️</div>
+
         <div class="heart">💕</div>
+
         <div class="heart">💗</div>
 
     </div>
 
 
-    <!-- CARTÃO -->
+
+    <!-- =====================================
+         CARTÃO
+    ===================================== -->
 
     <main class="card">
 
-        <!-- CÍRCULO COM GATINHO -->
+
+        <!-- =================================
+             CÍRCULO DO GATINHO
+        ================================== -->
 
         <div class="image-circle">
 
+
             <div class="cat">
 
+
                 <!-- ORELHAS -->
+
                 <div class="ear-left"></div>
+
                 <div class="ear-right"></div>
 
+
                 <!-- CORPO -->
+
                 <div class="cat-body"></div>
 
+
                 <!-- CABEÇA -->
+
                 <div class="cat-head">
 
+
+                    <!-- OLHOS -->
+
                     <div class="eye left"></div>
+
                     <div class="eye right"></div>
 
+
+                    <!-- NARIZ -->
+
                     <div class="nose"></div>
+
+
+                    <!-- BOCA -->
+
                     <div class="mouth"></div>
+
 
                 </div>
 
+
                 <!-- BIGODES -->
+
                 <div class="whisker w1"></div>
+
                 <div class="whisker w2"></div>
+
                 <div class="whisker w3"></div>
+
                 <div class="whisker w4"></div>
 
+
                 <!-- PATAS -->
+
                 <div class="paw left"></div>
+
                 <div class="paw right"></div>
 
 
-                <!-- FLOR -->
+                <!-- =================================
+                     FLOR
+                ================================== -->
 
                 <div class="flower">
 
                     <div class="stem"></div>
 
                     <div class="petal"></div>
+
                     <div class="petal"></div>
+
                     <div class="petal"></div>
+
                     <div class="petal"></div>
+
                     <div class="petal"></div>
 
                     <div class="flower-center"></div>
 
                 </div>
 
+
             </div>
 
         </div>
 
 
-        <!-- TEXTO -->
 
-        <h1>Tenho uma pergunta... 💕</h1>
+        <!-- =====================================
+             TEXTO
+        ===================================== -->
+
+        <h1>
+            Tenho uma pergunta... 💕
+        </h1>
+
 
         <p class="subtitle">
+
             E se a gente deixasse de só conversar
             e finalmente marcasse aquele encontro? 🌹
+
         </p>
 
 
-        <!-- BOTÕES -->
+
+        <!-- =====================================
+             BOTÕES
+        ===================================== -->
 
         <div class="buttons">
 
-            <button class="yes" onclick="sim()">
+
+            <button
+                class="yes"
+                onclick="sim()">
+
                 Sim 💗
+
             </button>
 
-            <button class="no" onclick="nao()">
+
+            <button
+                class="no"
+                onclick="nao()">
+
                 Talvez 😳
+
             </button>
+
 
         </div>
 
+
     </main>
 
+
+
+    <!-- =====================================
+         JAVASCRIPT
+    ===================================== -->
 
     <script>
 
         function sim() {
 
-            alert("Eu sabia! 😳❤️ Agora só falta escolher o dia.");
+            alert(
+                "Eu sabia! 😳❤️ Agora só falta escolher o dia."
+            );
 
         }
 
+
         function nao() {
 
-            alert("Tudo bem... mas o gatinho vai continuar esperando com a flor 🥹🌹");
+            alert(
+                "Tudo bem... mas o gatinho vai continuar esperando com a flor 🥹🌹"
+            );
 
         }
 
     </script>
 
+
 </body>
+
 </html>
