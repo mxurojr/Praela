@@ -1,334 +1,767 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Um Convite Especial</title>
-    <!-- Biblioteca para o efeito de confetes -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
+    <title>Um encontro? 💕</title>
+
+    <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: #f5f5f5;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.55), transparent 25%),
+                linear-gradient(135deg, #ffd6e7, #ffc1dc, #f8b8d8);
+
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            color: #333;
         }
 
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 450px;
+        /* -------------------------
+           CORAÇÕES DO FUNDO
+        ------------------------- */
+
+        .hearts {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -60px;
+            font-size: 25px;
+            opacity: 0;
+            animation: subir linear infinite;
+        }
+
+        .heart:nth-child(1) {
+            left: 8%;
+            animation-duration: 7s;
+            animation-delay: 0s;
+        }
+
+        .heart:nth-child(2) {
+            left: 20%;
+            animation-duration: 9s;
+            animation-delay: 2s;
+            font-size: 18px;
+        }
+
+        .heart:nth-child(3) {
+            left: 35%;
+            animation-duration: 8s;
+            animation-delay: 4s;
+            font-size: 30px;
+        }
+
+        .heart:nth-child(4) {
+            left: 50%;
+            animation-duration: 10s;
+            animation-delay: 1s;
+            font-size: 20px;
+        }
+
+        .heart:nth-child(5) {
+            left: 65%;
+            animation-duration: 7s;
+            animation-delay: 3s;
+            font-size: 32px;
+        }
+
+        .heart:nth-child(6) {
+            left: 78%;
+            animation-duration: 9s;
+            animation-delay: 5s;
+            font-size: 22px;
+        }
+
+        .heart:nth-child(7) {
+            left: 90%;
+            animation-duration: 8s;
+            animation-delay: 2s;
+            font-size: 28px;
+        }
+
+        @keyframes subir {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 0.7;
+            }
+
+            80% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        /* -------------------------
+           CARTÃO PRINCIPAL
+        ------------------------- */
+
+        .card {
+            position: relative;
+            z-index: 2;
+
+            width: min(92%, 470px);
+            min-height: 650px;
+
+            padding: 35px 25px;
+
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(12px);
+
+            border-radius: 30px;
+
+            box-shadow:
+                0 20px 60px rgba(150, 50, 100, 0.18);
+
             text-align: center;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* -------------------------
+           CÍRCULO DA IMAGEM
+        ------------------------- */
+
+        .image-circle {
+            width: 260px;
+            height: 260px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(circle at 50% 35%, #fff7fb, #ffd8e8);
+
+            border: 7px solid white;
+
+            box-shadow:
+                0 10px 30px rgba(150, 50, 100, 0.20);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            margin-bottom: 25px;
+
             position: relative;
         }
 
-        .screen {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
+        /* brilho no círculo */
 
-        .screen.active {
-            display: block;
-        }
+        .image-circle::before {
+            content: "";
+            position: absolute;
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+            width: 90px;
+            height: 90px;
 
-        /* Tipografia */
-        h1 { font-size: 24px; margin-bottom: 10px; color: #1a1a1a; }
-        p { font-size: 14px; color: #666; margin-bottom: 30px; line-height: 1.5; }
-        .subtitle { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 20px; display: block;}
+            background: rgba(255,255,255,0.6);
 
-        /* Imagem */
-        .cat-img {
-            width: 120px;
-            height: 120px;
             border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 20px;
-            display: block;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+            top: 15px;
+            left: 25px;
+
+            filter: blur(12px);
         }
 
-        /* Botões */
-        .btn-group {
+        /* -------------------------
+           GATINHO
+        ------------------------- */
+
+        .cat {
+            position: relative;
+            width: 190px;
+            height: 190px;
+
             display: flex;
             justify-content: center;
+            align-items: center;
+
+            animation: gatinho 3s ease-in-out infinite;
+        }
+
+        @keyframes gatinho {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-7px);
+            }
+        }
+
+        /* cabeça */
+
+        .cat-head {
+            position: absolute;
+
+            width: 115px;
+            height: 100px;
+
+            background: #fffafc;
+
+            border-radius: 48% 48% 45% 45%;
+
+            top: 30px;
+            left: 38px;
+
+            border: 3px solid #e9b9cd;
+
+            z-index: 3;
+        }
+
+        /* orelhas */
+
+        .ear-left,
+        .ear-right {
+            position: absolute;
+
+            width: 45px;
+            height: 55px;
+
+            background: #fffafc;
+
+            border: 3px solid #e9b9cd;
+
+            z-index: 2;
+
+            top: 5px;
+        }
+
+        .ear-left {
+            left: 38px;
+            transform: rotate(-30deg);
+            border-radius: 8px 35px 5px 30px;
+        }
+
+        .ear-right {
+            right: 38px;
+            transform: rotate(30deg);
+            border-radius: 35px 8px 30px 5px;
+        }
+
+        .ear-left::after,
+        .ear-right::after {
+            content: "";
+
+            position: absolute;
+
+            width: 20px;
+            height: 25px;
+
+            background: #ffc4d9;
+
+            border-radius: 50%;
+        }
+
+        .ear-left::after {
+            left: 10px;
+            top: 15px;
+        }
+
+        .ear-right::after {
+            right: 10px;
+            top: 15px;
+        }
+
+        /* olhos */
+
+        .eye {
+            position: absolute;
+
+            width: 13px;
+            height: 18px;
+
+            background: #5c4050;
+
+            border-radius: 50%;
+
+            top: 68px;
+
+            z-index: 5;
+        }
+
+        .eye::after {
+            content: "";
+
+            position: absolute;
+
+            width: 4px;
+            height: 6px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            top: 3px;
+            left: 3px;
+        }
+
+        .eye.left {
+            left: 65px;
+        }
+
+        .eye.right {
+            right: 65px;
+        }
+
+        /* nariz */
+
+        .nose {
+            position: absolute;
+
+            width: 12px;
+            height: 9px;
+
+            background: #e889aa;
+
+            border-radius: 50%;
+
+            top: 88px;
+            left: 52px;
+
+            z-index: 5;
+        }
+
+        /* boca */
+
+        .mouth {
+            position: absolute;
+
+            top: 96px;
+            left: 52px;
+
+            width: 20px;
+            height: 10px;
+
+            border-bottom: 2px solid #9c657b;
+
+            border-radius: 0 0 50% 50%;
+
+            z-index: 5;
+        }
+
+        /* bigodes */
+
+        .whisker {
+            position: absolute;
+
+            width: 42px;
+            height: 1px;
+
+            background: #9c657b;
+
+            top: 91px;
+
+            z-index: 4;
+        }
+
+        .whisker.w1 {
+            left: 0;
+            transform: rotate(10deg);
+        }
+
+        .whisker.w2 {
+            left: 0;
+            top: 101px;
+            transform: rotate(-8deg);
+        }
+
+        .whisker.w3 {
+            right: 0;
+            transform: rotate(-10deg);
+        }
+
+        .whisker.w4 {
+            right: 0;
+            top: 101px;
+            transform: rotate(8deg);
+        }
+
+        /* corpo */
+
+        .cat-body {
+            position: absolute;
+
+            width: 105px;
+            height: 85px;
+
+            background: #fffafc;
+
+            border: 3px solid #e9b9cd;
+
+            border-radius: 55% 55% 45% 45%;
+
+            bottom: 10px;
+            left: 43px;
+
+            z-index: 1;
+        }
+
+        /* patas */
+
+        .paw {
+            position: absolute;
+
+            width: 32px;
+            height: 42px;
+
+            background: #fffafc;
+
+            border: 3px solid #e9b9cd;
+
+            border-radius: 50%;
+
+            bottom: 5px;
+
+            z-index: 4;
+        }
+
+        .paw.left {
+            left: 42px;
+        }
+
+        .paw.right {
+            right: 42px;
+        }
+
+        /* -------------------------
+           FLOR
+        ------------------------- */
+
+        .flower {
+            position: absolute;
+
+            right: 8px;
+            bottom: 42px;
+
+            width: 70px;
+            height: 100px;
+
+            z-index: 6;
+
+            transform: rotate(-12deg);
+        }
+
+        .stem {
+            position: absolute;
+
+            width: 4px;
+            height: 65px;
+
+            background: #75ad78;
+
+            bottom: 0;
+            left: 33px;
+
+            border-radius: 10px;
+        }
+
+        .petal {
+            position: absolute;
+
+            width: 27px;
+            height: 35px;
+
+            background: #ff7fab;
+
+            border-radius: 50%;
+
+            top: 5px;
+            left: 20px;
+        }
+
+        .petal:nth-child(2) {
+            transform: rotate(72deg);
+        }
+
+        .petal:nth-child(3) {
+            transform: rotate(144deg);
+        }
+
+        .petal:nth-child(4) {
+            transform: rotate(216deg);
+        }
+
+        .petal:nth-child(5) {
+            transform: rotate(288deg);
+        }
+
+        .flower-center {
+            position: absolute;
+
+            width: 18px;
+            height: 18px;
+
+            border-radius: 50%;
+
+            background: #ffd66b;
+
+            top: 14px;
+            left: 25px;
+
+            z-index: 2;
+        }
+
+        /* -------------------------
+           TEXTO
+        ------------------------- */
+
+        h1 {
+            color: #b84d7d;
+
+            font-size: 32px;
+
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #7c5365;
+
+            font-size: 17px;
+
+            line-height: 1.5;
+
+            max-width: 350px;
+
+            margin-bottom: 25px;
+        }
+
+        /* -------------------------
+           BOTÕES
+        ------------------------- */
+
+        .buttons {
+            display: flex;
             gap: 15px;
-            position: relative;
+
+            margin-top: auto;
         }
 
         button {
-            padding: 12px 24px;
             border: none;
-            border-radius: 10px;
+
+            padding: 14px 30px;
+
+            border-radius: 50px;
+
             font-size: 16px;
-            font-weight: 600;
+
+            font-weight: bold;
+
             cursor: pointer;
-            transition: all 0.2s;
+
+            transition: 0.25s;
         }
 
-        .btn-yes {
-            background-color: #d81b60;
+        .yes {
+            background: #e85c93;
+
             color: white;
-        }
-        
-        .btn-yes:hover { background-color: #ad144b; }
 
-        .btn-no {
-            background-color: #f0f0f0;
-            color: #666;
-            position: relative; /* Começa relativo, muda para fixed via JS */
+            box-shadow: 0 8px 20px rgba(232,92,147,0.25);
         }
 
-        .btn-primary {
-            background-color: #d81b60;
-            color: white;
-            width: 100%;
-            margin-top: 20px;
+        .yes:hover {
+            transform: translateY(-3px) scale(1.04);
+            background: #dc4b84;
         }
 
-        /* Inputs e Grid */
-        .input-group {
-            text-align: left;
-            margin-bottom: 20px;
+        .no {
+            background: white;
+
+            color: #b84d7d;
+
+            border: 2px solid #f0b2ca;
         }
 
-        label {
-            display: block;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 5px;
-            text-transform: uppercase;
+        .no:hover {
+            transform: translateY(-3px);
         }
 
-        input[type="date"], input[type="time"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            background: #fafafa;
-        }
+        /* -------------------------
+           RESPONSIVO
+        ------------------------- */
 
-        .food-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+        @media (max-width: 500px) {
 
-        .food-item {
-            background: #fafafa;
-            border: 1px solid #ddd;
-            padding: 15px 5px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .food-item:hover { border-color: #d81b60; }
-        
-        .food-item.selected {
-            border-color: #d81b60;
-            background-color: #fff0f5;
-            color: #d81b60;
-        }
-
-        .food-item span { display: block; font-size: 24px; margin-bottom: 5px; }
-
-        /* Tela Final */
-        .summary-card {
-            background: #fafafa;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: left;
-            border: 1px dashed #ccc;
-        }
-
-        .summary-row {
-            display: flex;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        .summary-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
-        .summary-label { width: 60px; font-weight: bold; color: #888; font-size: 12px; text-transform: uppercase; }
-        .summary-value { color: #333; font-weight: 600; font-size: 14px;}
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <!-- TELA 1: O Convite -->
-        <div id="screen1" class="screen active">
-            <span class="subtitle">Um Convite</span>
-            <!-- AQUI ESTÁ A IMAGEM ATUALIZADA DO EUROSAURUS -->
-            <img src="https://blog.petiko.com.br/wp-content/uploads/2018/02/eurosaurus.jpg" alt="Eurosaurus" class="cat-img">
-            <h1>Você aceita sair comigo?</h1>
-            <p>Sem pressão. Sério. Só uma noite, uma boa conversa e a chance de eu te fazer rir pelo menos três vezes.</p>
-            
-            <div class="btn-group">
-                <button class="btn-yes" onclick="nextScreen('screen2'); triggerConfetti();">Sim, aceito <3</button>
-                <button class="btn-no" id="btn-no">Não</button>
-            </div>
-        </div>
-
-        <!-- TELA 2: Data e Hora -->
-        <div id="screen2" class="screen">
-            <h1>😱 Isso é um SIM?</h1>
-            <p>Eu juro que estava pronto para você negar. Já até tinha ensaiado o "tudo bem, sem problema".</p>
-            
-            <h2 style="font-size: 18px; margin-bottom: 20px;">Então me diz: que dia você está livre?</h2>
-            
-            <div class="input-group">
-                <label>A Data</label>
-                <input type="date" id="dateInput">
-            </div>
-            
-            <div class="input-group">
-                <label>O Horário</label>
-                <input type="time" id="timeInput" value="20:00">
-            </div>
-
-            <button class="btn-primary" onclick="nextScreen('screen3')">Combinado -></button>
-        </div>
-
-        <!-- TELA 3: Comida -->
-        <div id="screen3" class="screen">
-            <span class="subtitle">Parte séria da noite</span>
-            <h1>O que você quer comer?</h1>
-            <p style="font-size: 12px;">Escolha uma. Eu cuido da reserva, do caminho e de fingir que sei escolher vinho.</p>
-            
-            <div class="food-grid" id="foodGrid">
-                <div class="food-item" onclick="selectFood(this, 'Pizza')"><span>🍕</span> Pizza</div>
-                <div class="food-item" onclick="selectFood(this, 'Sushi')"><span>🍣</span> Sushi</div>
-                <div class="food-item" onclick="selectFood(this, 'Hot Dog')"><span>🌭</span> Hot Dog</div>
-                <div class="food-item" onclick="selectFood(this, 'Hambúrguer')"><span>🍔</span> Lanche</div>
-                <div class="food-item" onclick="selectFood(this, 'Carne')"><span>🥩</span> Carne</div>
-                <div class="food-item" onclick="selectFood(this, 'Italiano')"><span>🍝</span> Italiano</div>
-            </div>
-
-            <button class="btn-primary" onclick="finishSetup()">Confirmar encontro <3</button>
-        </div>
-
-        <!-- TELA 4: Resumo Final -->
-        <div id="screen4" class="screen">
-            <span class="subtitle">Está marcado</span>
-            <h1>Então é um encontro.</h1>
-            <p>Guarda esse print. É a prova de que você disse sim antes de eu perder a coragem de perguntar de novo.</p>
-            
-            <div class="summary-card">
-                <div class="summary-row">
-                    <div class="summary-label">DIA</div>
-                    <div class="summary-value" id="resDate">-</div>
-                </div>
-                <div class="summary-row">
-                    <div class="summary-label">HORA</div>
-                    <div class="summary-value" id="resTime">-</div>
-                </div>
-                <div class="summary-row">
-                    <div class="summary-label">MENU</div>
-                    <div class="summary-value" id="resFood">-</div>
-                </div>
-                <div class="summary-row">
-                    <div class="summary-label">NOTA</div>
-                    <div class="summary-value">Nenhuma. Só apareça.</div>
-                </div>
-            </div>
-
-            <button class="btn-no" style="margin-top: 20px; width: 100%;" onclick="location.reload()">Refazer</button>
-        </div>
-    </div>
-
-    <script>
-        // Lógica do botão fujão
-        const btnNo = document.getElementById('btn-no');
-        
-        btnNo.addEventListener('mouseover', function() {
-            // Muda a posição para fixed para poder mover pela tela toda
-            this.style.position = 'fixed';
-            
-            // Calcula posições aleatórias dentro do tamanho da janela visível
-            const maxX = window.innerWidth - this.offsetWidth - 20;
-            const maxY = window.innerHeight - this.offsetHeight - 20;
-            
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
-            
-            this.style.left = randomX + 'px';
-            this.style.top = randomY + 'px';
-        });
-
-        // Previne clique caso o usuário seja muito rápido
-        btnNo.addEventListener('click', function(e) {
-            e.preventDefault();
-        });
-
-        // Troca de Telas
-        function nextScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-        }
-
-        // Lógica de seleção de comida
-        let selectedFood = '';
-        function selectFood(element, foodName) {
-            document.querySelectorAll('.food-item').forEach(item => item.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedFood = foodName;
-        }
-
-        // Finalizar e preencher resumo
-        function finishSetup() {
-            const dateVal = document.getElementById('dateInput').value;
-            const timeVal = document.getElementById('timeInput').value;
-
-            if(!dateVal || !selectedFood) {
-                alert("Por favor, escolha um dia e o que vamos comer!");
-                return;
+            .card {
+                min-height: 620px;
+                padding: 28px 18px;
             }
 
-            // Formatar data (YYYY-MM-DD para DD/MM/YYYY)
-            const dateObj = new Date(dateVal + 'T12:00:00'); // Evita bug de fuso horário
-            const formattedDate = dateObj.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+            .image-circle {
+                width: 225px;
+                height: 225px;
+            }
 
-            document.getElementById('resDate').textContent = formattedDate;
-            document.getElementById('resTime').textContent = timeVal + 'h';
-            document.getElementById('resFood').textContent = selectedFood;
+            h1 {
+                font-size: 27px;
+            }
 
-            nextScreen('screen4');
-            triggerConfetti();
+            .subtitle {
+                font-size: 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CORAÇÕES -->
+    <div class="hearts">
+
+        <div class="heart">❤️</div>
+        <div class="heart">💕</div>
+        <div class="heart">💗</div>
+        <div class="heart">💖</div>
+        <div class="heart">❤️</div>
+        <div class="heart">💕</div>
+        <div class="heart">💗</div>
+
+    </div>
+
+
+    <!-- CARTÃO -->
+
+    <main class="card">
+
+        <!-- CÍRCULO COM GATINHO -->
+
+        <div class="image-circle">
+
+            <div class="cat">
+
+                <!-- ORELHAS -->
+                <div class="ear-left"></div>
+                <div class="ear-right"></div>
+
+                <!-- CORPO -->
+                <div class="cat-body"></div>
+
+                <!-- CABEÇA -->
+                <div class="cat-head">
+
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+
+                    <div class="nose"></div>
+                    <div class="mouth"></div>
+
+                </div>
+
+                <!-- BIGODES -->
+                <div class="whisker w1"></div>
+                <div class="whisker w2"></div>
+                <div class="whisker w3"></div>
+                <div class="whisker w4"></div>
+
+                <!-- PATAS -->
+                <div class="paw left"></div>
+                <div class="paw right"></div>
+
+
+                <!-- FLOR -->
+
+                <div class="flower">
+
+                    <div class="stem"></div>
+
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+
+                    <div class="flower-center"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEXTO -->
+
+        <h1>Tenho uma pergunta... 💕</h1>
+
+        <p class="subtitle">
+            E se a gente deixasse de só conversar
+            e finalmente marcasse aquele encontro? 🌹
+        </p>
+
+
+        <!-- BOTÕES -->
+
+        <div class="buttons">
+
+            <button class="yes" onclick="sim()">
+                Sim 💗
+            </button>
+
+            <button class="no" onclick="nao()">
+                Talvez 😳
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function sim() {
+
+            alert("Eu sabia! 😳❤️ Agora só falta escolher o dia.");
+
         }
 
-        // Efeito de Confete
-        function triggerConfetti() {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#d81b60', '#ffc107', '#00bcd4']
-            });
+        function nao() {
+
+            alert("Tudo bem... mas o gatinho vai continuar esperando com a flor 🥹🌹");
+
         }
+
     </script>
+
 </body>
 </html>
+```
