@@ -17,23 +17,64 @@
         }
 
         body {
-            background-color: #f5f5f5;
+            /* Fundo com um degradê elegante do vermelho para o rosa escuro */
+            background: linear-gradient(135deg, #bd1f42, #7a0e27);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             color: #333;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Sistema de corações flutuantes no fundo */
+        .heart-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 24px;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-105vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .container {
             background: white;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             width: 100%;
             max-width: 450px;
             text-align: center;
             position: relative;
+            z-index: 2; /* Garante que o cartão fique na frente dos corações */
         }
 
         .screen {
@@ -57,13 +98,13 @@
 
         /* Imagem */
         .cat-img {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             object-fit: cover;
             margin: 0 auto 20px;
             display: block;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         /* Botões */
@@ -94,7 +135,7 @@
         .btn-no {
             background-color: #f0f0f0;
             color: #666;
-            position: relative; /* Começa relativo, muda para fixed via JS */
+            position: relative;
         }
 
         .btn-primary {
@@ -178,12 +219,15 @@
 </head>
 <body>
 
+    <!-- Elemento para conter os corações flutuantes -->
+    <div class="heart-background" id="heartBg"></div>
+
     <div class="container">
         <!-- TELA 1: O Convite -->
         <div id="screen1" class="screen active">
             <span class="subtitle">Um Convite</span>
-            <!-- AQUI ESTÁ A IMAGEM ATUALIZADA DO EUROSAURUS -->
-            <img src="https://blog.petiko.com.br/wp-content/uploads/2018/02/eurosaurus.jpg" alt="Eurosaurus" class="cat-img">
+            <!-- Nova imagem do cachorro sorrindo com flor adicionada diretamente -->
+            <img src="https://blog.petiko.com.br/wp-content/uploads/2018/02/eurosaurus.jpg" alt="Cachorrinho Sorrindo" class="cat-img">
             <h1>Você aceita sair comigo?</h1>
             <p>Sem pressão. Sério. Só uma noite, uma boa conversa e a chance de eu te fazer rir pelo menos três vezes.</p>
             
@@ -250,85 +294,10 @@
                     <div class="summary-label">MENU</div>
                     <div class="summary-value" id="resFood">-</div>
                 </div>
-                <div class="summary-row">
-                    <div class="summary-label">NOTA</div>
-                    <div class="summary-value">Nenhuma. Só apareça.</div>
-                </div>
             </div>
-
-            <button class="btn-no" style="margin-top: 20px; width: 100%;" onclick="location.reload()">Refazer</button>
         </div>
     </div>
 
     <script>
-        // Lógica do botão fujão
-        const btnNo = document.getElementById('btn-no');
-        
-        btnNo.addEventListener('mouseover', function() {
-            // Muda a posição para fixed para poder mover pela tela toda
-            this.style.position = 'fixed';
-            
-            // Calcula posições aleatórias dentro do tamanho da janela visível
-            const maxX = window.innerWidth - this.offsetWidth - 20;
-            const maxY = window.innerHeight - this.offsetHeight - 20;
-            
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
-            
-            this.style.left = randomX + 'px';
-            this.style.top = randomY + 'px';
-        });
+        let selectedFoodItem = '';
 
-        // Previne clique caso o usuário seja muito rápido
-        btnNo.addEventListener('click', function(e) {
-            e.preventDefault();
-        });
-
-        // Troca de Telas
-        function nextScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-        }
-
-        // Lógica de seleção de comida
-        let selectedFood = '';
-        function selectFood(element, foodName) {
-            document.querySelectorAll('.food-item').forEach(item => item.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedFood = foodName;
-        }
-
-        // Finalizar e preencher resumo
-        function finishSetup() {
-            const dateVal = document.getElementById('dateInput').value;
-            const timeVal = document.getElementById('timeInput').value;
-
-            if(!dateVal || !selectedFood) {
-                alert("Por favor, escolha um dia e o que vamos comer!");
-                return;
-            }
-
-            // Formatar data (YYYY-MM-DD para DD/MM/YYYY)
-            const dateObj = new Date(dateVal + 'T12:00:00'); // Evita bug de fuso horário
-            const formattedDate = dateObj.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
-
-            document.getElementById('resDate').textContent = formattedDate;
-            document.getElementById('resTime').textContent = timeVal + 'h';
-            document.getElementById('resFood').textContent = selectedFood;
-
-            nextScreen('screen4');
-            triggerConfetti();
-        }
-
-        // Efeito de Confete
-        function triggerConfetti() {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#d81b60', '#ffc107', '#00bcd4']
-            });
-        }
-    </script>
-</body>
-</html>
